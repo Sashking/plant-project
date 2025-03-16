@@ -1,13 +1,11 @@
 <script lang="ts">
 	import Navbar from '$lib/Navbar.svelte';
 	import '../app.css';
-	let { data, children } = $props();
-
-	console.log(data)
+	let { children } = $props();
 </script>
 
-<Navbar signedIn={!!data} />
+<Navbar />
 
-<main class="container mx-auto min-h-screen w-full pt-[82px]">
+<main class="container mx-auto pt-[82px] w-full min-h-screen">
 	{@render children()}
 </main>

@@ -15,6 +15,20 @@ export const session = pgTable('session', {
 	expiresAt: timestamp('expires_at', { withTimezone: true, mode: 'date' }).notNull()
 });
 
+export const plant = pgTable('plant', {
+	id: serial('id').primaryKey(),
+	userId: text('user_id')
+		.notNull()
+		.references(() => user.id),
+	name: text('name').notNull(),
+	desc: text('desc'),
+	cycle: integer('cycle').notNull(),
+	image: text('image'),
+	nextCycleTimestamp: timestamp('next_cycle', { withTimezone: true, mode: 'date' }).notNull()
+});
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
+
+export type Plant = typeof plant.$inferSelect;

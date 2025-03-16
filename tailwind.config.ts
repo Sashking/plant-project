@@ -1,6 +1,18 @@
-import type { Config } from 'tailwindcss';
+// import type { Config } from 'tailwindcss';
 
-export default {
+// export default {
+// 	content: ['./src/**/*.{html,js,svelte,ts}'],
+
+// 	theme: {
+// 		extend: {}
+// 	},
+
+// 	plugins: []
+// } as Config;
+
+import { withUt } from 'uploadthing/tw';
+
+export default withUt({
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 
 	theme: {
@@ -8,4 +20,4 @@ export default {
 	},
 
 	plugins: []
-} as Config;
+});
