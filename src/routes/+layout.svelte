@@ -1,11 +1,14 @@
 <script lang="ts">
 	import Navbar from '$lib/Navbar.svelte';
 	import '../app.css';
-	let { children } = $props();
+
+	let { data, children } = $props();
+
+	const signedIn = Object.keys(data).length != 0;
 </script>
 
-<Navbar />
+<Navbar {signedIn} />
 
-<main class="container mx-auto pt-[82px] w-full min-h-screen">
+<main class="container mx-auto min-h-screen w-full pt-[82px]">
 	{@render children()}
 </main>

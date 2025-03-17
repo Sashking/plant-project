@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { enhance } from '$app/forms';
 	import type { PageServerData } from './$types';
 
 	let { data }: { data: PageServerData } = $props();
@@ -28,21 +27,18 @@
 	}
 </script>
 
-<h1 class="block">Username: {data.user.username}</h1>
-<p class="block">ID: {data.user.id}</p>
-<form method="post" action="?/logout" use:enhance>
-	<button class="rounded-md bg-red-500 px-2 py-1">Sign out</button>
-</form>
+<!-- <h1 class="block">Username: {data.user.username}</h1>
+<p class="block">ID: {data.user.id}</p> -->
 
-<div class="my-8 grid w-full grid-cols-4 gap-3">
+<div class="mb-4 grid w-full grid-cols-4 gap-3">
 	<a
 		href="/new"
-		class="flex min-h-12 items-center justify-center rounded-md bg-neutral-950 text-neutral-50"
-		>NEW</a
+		class="flex min-h-12 items-center justify-center rounded-md border border-black transition duration-75 hover:bg-black hover:text-white"
+		>PŘIDAT</a
 	>
 
 	{#each data.plants as plant}
-		<div class="relative z-0 w-full rounded-md bg-neutral-50 hover:bg-neutral-100">
+		<a href={'/p/' + plant.id} class="relative z-0 w-full rounded-md bg-neutral-50 hover:bg-neutral-100">
 			<img
 				src={plant.image}
 				alt={'Image of the plant'}
@@ -53,13 +49,13 @@
 				<p class="line-clamp-2">{plant.desc}</p>
 				<div class="absolute inset-x-0 bottom-0 rounded-md bg-gray-200">
 					<div
-						class="rounded-md bg-gradient-to-r from-blue-500 to-blue-600 p-0.5 text-center text-xs font-medium leading-none text-blue-100"
+						class={`${getTimeDiff(plant) < 0 ? 'bg-red-600' : 'bg-blue-600'} rounded-md p-0.5 text-center text-xs font-medium leading-none text-blue-100`}
 						style={'width: ' + (getTimeDiff(plant) / plant.cycle) * 100 + '%'}
 					>
 						{getTimeText(plant)}
 					</div>
 				</div>
 			</div>
-		</div>
+		</a>
 	{/each}
 </div>

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
 	import NavItem from '$lib/NavItem.svelte';
 	// import { enhance } from '$app/forms';
 	import { Sprout } from 'lucide-svelte';
@@ -11,10 +12,10 @@
 		{ name: 'kariéra', href: 'careers' }
 	];
 
-	// let { signedIn } = $props();
+	let { signedIn } = $props();
 </script>
 
-<nav class="lg-top-6 container fixed inset-x-0 top-4 mx-auto flex h-[50px] w-full gap-x-2.5 z-10">
+<nav class="lg-top-6 container fixed inset-x-0 top-4 z-10 mx-auto flex h-[50px] w-full gap-x-2.5">
 	<!-- home button -->
 	<a
 		href="/"
@@ -32,7 +33,7 @@
 		{/each}
 	</div>
 
-	<!-- {#if !signedIn} -->
+	{#if !signedIn}
 		<!-- sign in -->
 		<a
 			href="/signin"
@@ -48,10 +49,14 @@
 		>
 			REGISTROVAT
 		</a>
-	<!-- {:else}
-		<form method="post" action="?/logout" class="flex h-full cursor-pointer items-center justify-center text-nowrap rounded-md bg-red-600 px-4 py-1.5 font-semibold text-white hover:bg-red-800"
-		use:enhance>
+	{:else}
+		<form
+			method="post"
+			action="?/logout"
+			class="flex h-full cursor-pointer items-center justify-center text-nowrap rounded-md bg-red-600 px-4 py-1.5 font-semibold text-white hover:bg-red-800"
+			use:enhance
+		>
 			<button>ODHLÁSIT SE</button>
 		</form>
-	{/if} -->
+	{/if}
 </nav>

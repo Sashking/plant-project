@@ -1,0 +1,1 @@
+- reload the navbar when logging in/out

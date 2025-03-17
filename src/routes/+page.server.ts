@@ -3,7 +3,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
-
+import { eq } from 'drizzle-orm';
 
 export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
@@ -11,7 +11,10 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	// get all plants
-	const plants = await db.select().from(table.plant)
+	const plants = await db
+		.select()
+		.from(table.plant)
+		.where(eq(table.plant.userId, event.locals.user.id));
 
 	return { user: event.locals.user, plants };
 };
