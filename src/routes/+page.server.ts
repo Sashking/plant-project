@@ -14,7 +14,8 @@ export const load: PageServerLoad = async (event) => {
 	const plants = await db
 		.select()
 		.from(table.plant)
-		.where(eq(table.plant.userId, event.locals.user.id));
+		.where(eq(table.plant.userId, event.locals.user.id))
+		.orderBy(table.plant.nextCycleTimestamp);
 
 	return { user: event.locals.user, plants };
 };

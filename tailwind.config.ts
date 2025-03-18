@@ -13,7 +13,7 @@
 import { withUt } from 'uploadthing/tw';
 
 export default withUt({
-	content: ['./src/**/*.{html,js,svelte,ts}'],
+	content: ['./src/**/*.{html,js,svelte,ts,tsx,mdx}', './node_modules/@uploadthing/svelte/dist**'],
 
 	theme: {
 		extend: {}

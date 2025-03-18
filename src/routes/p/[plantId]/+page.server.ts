@@ -1,5 +1,5 @@
-import { redirect } from '@sveltejs/kit';
-import type { PageServerLoad } from './$types';
+import { fail, redirect } from '@sveltejs/kit';
+import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm/mysql-core/expressions';
@@ -23,4 +23,50 @@ export const load: PageServerLoad = async (event) => {
 	}
 
 	return { plant };
+};
+
+export const actions: Actions = {
+	water: async (event) => {
+		if (!event.locals.session) {
+			return fail(401);
+		}
+
+		const res = await db
+			.select()
+			.from(table.plant)
+			.where(eq(table.plant.id, Number(event.params.plantId)));
+		const plant = res[0];
+
+		if (!plant || event.locals.session.userId !== plant.userId) {
+			return fail(401);
+		}
+
+		const DAY_IN_MS = 1000 * 60 * 60 * 24;
+		const nextCycle = plant.cycle * DAY_IN_MS + Date.now();
+		const nextCycleTimestamp = new Date(nextCycle);
+
+		await db
+			.update(table.plant)
+			.set({ nextCycleTimestamp })
+			.where(eq(table.plant.id, +event.params.plantId));
+
+		return true;
+	},
+	delete: async (event) => {
+		if (!event.locals.session) {
+			return fail(401);
+		}
+
+		const res = await db
+			.select()
+			.from(table.plant)
+			.where(eq(table.plant.id, Number(event.params.plantId)));
+		const plant = res[0];
+
+		if (!plant || event.locals.session.userId !== plant.userId) {
+			return fail(401);
+		}
+
+		await db.delete(table.plant).where(eq(table.plant.id, +event.params.plantId));
+	}
 };

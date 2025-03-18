@@ -38,7 +38,10 @@
 	>
 
 	{#each data.plants as plant}
-		<a href={'/p/' + plant.id} class="relative z-0 w-full rounded-md bg-neutral-50 hover:bg-neutral-100">
+		<a
+			href={'/p/' + plant.id}
+			class="relative z-0 w-full rounded-md bg-neutral-50 hover:bg-neutral-100"
+		>
 			<img
 				src={plant.image}
 				alt={'Image of the plant'}
