@@ -22,15 +22,25 @@
 
 	function getTimeText(plant: Plant) {
 		const timeInHours = Math.round(getTimeDiff(plant) * 24);
-		if (timeInHours < 24) return `in ${timeInHours} hours`;
-		else return `in ${Math.round(timeInHours / 24)} days`;
+		if (timeInHours < 24) {
+			// hodiny
+			return `in ${timeInHours} hours`;
+		} else {
+			const days = Math.round(timeInHours / 24);
+			// 1 den
+			if (days == 1) return `za ${days} den`;
+			// 2-4 dny
+			else if (days >= 2 && days <= 4) return `za ${days} dny`;
+			// 5+ dní
+			else return `za ${days} dní`;
+		}
 	}
 </script>
 
 <!-- <h1 class="block">Username: {data.user.username}</h1>
 <p class="block">ID: {data.user.id}</p> -->
 
-<div class="mb-4 grid w-full grid-cols-4 gap-3">
+<div class="mb-4 grid w-full grid-cols-1 gap-3 sm:grid-cols-4">
 	<a
 		href="/new"
 		class="flex min-h-12 items-center justify-center rounded-md border border-black transition duration-75 hover:bg-black hover:text-white"
@@ -40,22 +50,27 @@
 	{#each data.plants as plant}
 		<a
 			href={'/p/' + plant.id}
-			class="relative z-0 w-full rounded-md bg-neutral-50 hover:bg-neutral-100"
+			class="relative z-0 w-full rounded-md border border-black bg-neutral-50 hover:bg-neutral-100"
 		>
 			<img
 				src={plant.image}
 				alt={'Image of the plant'}
-				class="h-52 w-full rounded-t-md object-cover"
+				class="h-52 w-full rounded-t-md border-b border-black object-cover"
 			/>
-			<div class="px-4 pb-6 pt-2">
+			<div class="px-4 pb-16 pt-2">
 				<p class="text-xl font-bold uppercase">{plant.name}</p>
-				<p class="line-clamp-2">{plant.desc}</p>
-				<div class="absolute inset-x-0 bottom-0 rounded-md bg-gray-200">
-					<div
-						class={`${getTimeDiff(plant) < 0 ? 'bg-red-600' : 'bg-blue-600'} rounded-md p-0.5 text-center text-xs font-medium leading-none text-blue-100`}
-						style={'width: ' + (getTimeDiff(plant) / plant.cycle) * 100 + '%'}
+				<p class="line-clamp-2 text-neutral-600">{plant.desc}</p>
+				<div class="absolute inset-x-0 bottom-0 p-3">
+					<p
+						class={`py-1.5 text-sm ${getTimeDiff(plant) < 0 ? 'text-red-600' : 'text-blue-600'} font-medium leading-none`}
 					>
-						{getTimeText(plant)}
+						další zalévání {getTimeText(plant)}
+					</p>
+					<div class={`rounded-full ${getTimeDiff(plant) < 0 ? 'bg-red-200' : 'bg-blue-200'}`}>
+						<div
+							class={`${getTimeDiff(plant) < 0 ? 'bg-red-600' : 'bg-blue-600'} h-3 rounded-full text-center`}
+							style={'width: ' + Math.min((getTimeDiff(plant) / plant.cycle) * 100, 100) + '%'}
+						></div>
 					</div>
 				</div>
 			</div>

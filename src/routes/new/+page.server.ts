@@ -16,10 +16,6 @@ export const actions: Actions = {
 			return fail(401);
 		}
 
-		// const response = await fetch('https://trefle.io/api/v1/plants?token=vQ7lT1TgW0349je_ySvjMTP9XeKMyFoPPhBLZZxodrQ');
-		// const json = await response.json();
-		// console.log(json);
-
 		const formData = await event.request.formData();
 		const name = formData.get('name') as string;
 		const desc = formData.get('desc') as string | null;

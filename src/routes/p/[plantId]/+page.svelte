@@ -6,7 +6,7 @@
 	let { data }: { data: PageServerData } = $props();
 </script>
 
-<div class="grid grid-cols-3 gap-4">
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-y-4 sm:gap-x-4">
 	<div class="rounded-md bg-neutral-50 p-4">
 		<img class="w-full rounded-md object-cover" src={data.plant.image} alt="Plant" />
 		<p class="mb-2 mt-4 text-2xl font-bold">{data.plant.name}</p>
@@ -25,7 +25,7 @@
 				class="col-span-2 flex items-center justify-center rounded-md border border-yellow-500 p-4 text-black transition duration-75 hover:bg-yellow-500"
 			>
 				<Pencil size={16} />
-				<span class="ml-2">EDITOVAT</span>
+				<span class="ml-2">UPRAVIT</span>
 			</a>
 			<form method="post" action="?/delete" use:enhance>
 				<button

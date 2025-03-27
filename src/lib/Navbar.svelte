@@ -5,17 +5,15 @@
 	import { Sprout } from 'lucide-svelte';
 
 	const navigationLinks = [
-		{ name: 'ceníky', href: 'pricing' },
 		{ name: 'blog', href: 'blog' },
 		{ name: 'fórum', href: 'forum' },
-		{ name: 'dokumentace', href: 'docs' },
-		{ name: 'kariéra', href: 'careers' }
+		{ name: 'dokumentace', href: 'docs' }
 	];
 
 	let { signedIn } = $props();
 </script>
 
-<nav class="lg-top-6 container fixed inset-x-0 top-4 z-10 mx-auto flex h-[50px] w-full gap-x-2.5">
+<nav class="lg-top-6 container fixed inset-x-0 top-4 z-10 mx-auto flex h-[50px] w-full gap-x-2.5 px-4 sm:px-0">
 	<!-- home button -->
 	<a
 		href="/"
