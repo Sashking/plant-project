@@ -1,19 +1,18 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
-	import NavItem from '$lib/NavItem.svelte';
-	// import { enhance } from '$app/forms';
 	import { Sprout } from 'lucide-svelte';
+	// import NavItem from '$lib/NavItem.svelte';
 
-	const navigationLinks = [
-		{ name: 'blog', href: 'blog' },
-		{ name: 'fórum', href: 'forum' },
-		{ name: 'dokumentace', href: 'docs' }
-	];
+	// const navigationLinks = [
+	// 	{ name: 'blog', href: 'blog' },
+	// 	{ name: 'fórum', href: 'forum' },
+	// 	{ name: 'dokumentace', href: 'docs' }
+	// ];
 
 	let { signedIn } = $props();
 </script>
 
-<nav class="lg-top-6 container fixed inset-x-0 top-4 z-10 mx-auto flex h-[50px] w-full gap-x-2.5 px-4 sm:px-0">
+<nav class="lg-top-6 container fixed inset-x-0 top-4 z-10 mx-auto flex h-[50px] w-full gap-x-2.5 px-4 md:px-0">
 	<!-- home button -->
 	<a
 		href="/"
@@ -22,13 +21,13 @@
 		<Sprout size={32} />
 	</a>
 
-	<!-- navigation -->
+	<!-- navigation / filler part -->
 	<div
 		class="flex w-full items-center justify-center gap-1.5 rounded-md bg-black p-2 font-semibold text-white"
 	>
-		{#each navigationLinks as link}
+		<!-- {#each navigationLinks as link}
 			<NavItem {link} />
-		{/each}
+		{/each} -->
 	</div>
 
 	{#if !signedIn}

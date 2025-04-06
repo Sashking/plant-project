@@ -9,8 +9,8 @@ export const load: PageServerLoad = async (event) => {
 	if (!event.locals.user) {
 		return redirect(302, '/signin');
 	}
-
-	// get all plants
+	
+	// loadujeme veskere rostliny daneho uzivatele z databaze
 	const plants = await db
 		.select()
 		.from(table.plant)

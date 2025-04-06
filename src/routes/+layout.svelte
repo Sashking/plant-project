@@ -9,6 +9,6 @@
 
 <Navbar {signedIn} />
 
-<main class="container mx-auto min-h-screen w-full pt-[82px] px-4 sm:px-0">
+<main class="container mx-auto min-h-screen w-full px-4 pt-[82px] md:px-0">
 	{@render children()}
 </main>
