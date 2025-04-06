@@ -22,13 +22,15 @@
 
 	function getTimeText(plant: Plant) {
 		const diff = getTimeDiff(plant);
-		const timeInHours = Math.round(diff * 24);
+		const timeInHours = Math.floor(diff * 24);
 
 		// prvne potrebujeme zjistit, zda uz je pozde
 		if (diff <= 0) {
 			if (timeInHours > 24) {
-				// hodiny
-				return `in ${timeInHours} hours`;
+				// před 1 hodinou
+				if (timeInHours == 1) return `před ${timeInHours} hodinou`;
+				// před 2+ hodinami
+				else return `před ${timeInHours} hodinami`;
 			} else {
 				const days = Math.abs(Math.round(timeInHours / 24));
 				// před 1 dnem
@@ -38,15 +40,19 @@
 			}
 		} else {
 			if (timeInHours < 24) {
-				// hodiny
-				return `in ${timeInHours} hours`;
+				// za 1 hodinu
+				if (timeInHours == 1) return `za ${timeInHours} hodinu`;
+				// za 2-4 hodiny
+				else if (timeInHours >= 2 && timeInHours <= 4) return `za ${timeInHours} hodiny`;
+				// za 5+ hodin nebo případně 0 hodin
+				else return `za ${timeInHours} hodin`;
 			} else {
 				const days = Math.round(timeInHours / 24);
-				// 1 den
+				// za 1 den
 				if (days == 1) return `za ${days} den`;
-				// 2-4 dny
+				// za 2-4 dny
 				else if (days >= 2 && days <= 4) return `za ${days} dny`;
-				// 5+ dní
+				// za 5+ dní
 				else return `za ${days} dní`;
 			}
 		}

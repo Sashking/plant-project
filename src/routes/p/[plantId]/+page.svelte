@@ -39,6 +39,6 @@
 	</div>
 	<div class="col-span-2 w-full">
 		<!-- schedule of the next watering? -->
-		{data.plant.nextCycleTimestamp}
+		<!-- {data.plant.nextCycleTimestamp} -->
 	</div>
 </div>
