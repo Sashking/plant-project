@@ -21,15 +21,14 @@ export const actions: Actions = {
 		const password = formData.get('password');
 
 		if (!validateUsername(username)) {
-			return fail(400, { message: 'Invalid username' });
+			return fail(400, { message: 'Neplatné uživatelské jméno' });
 		}
 		if (!validatePassword(password)) {
-			return fail(400, { message: 'Invalid password' });
+			return fail(400, { message: 'Neplatné heslo' });
 		}
 
 		const userId = generateUserId();
 		const passwordHash = await hash(password, {
-			// recommended minimum parameters
 			memoryCost: 19456,
 			timeCost: 2,
 			outputLen: 32,
@@ -48,7 +47,7 @@ export const actions: Actions = {
 				secure: !dev
 			});
 		} catch (e) {
-			return fail(500, { message: 'An error has occurred' });
+			return fail(500, { message: 'Nastala chyba' });
 		}
 		return redirect(302, '/signup');
 	}

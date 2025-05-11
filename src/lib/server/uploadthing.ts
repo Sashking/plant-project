@@ -21,7 +21,7 @@ export const ourFileRouter = {
 			// This code runs on your server before upload
 
 			// Whatever is returned here is accessible in onUploadComplete as `metadata`
-			return { meta: 'Nothing really' };
+			return { meta: 'No metadata' };
 		})
 		.onUploadComplete(async ({ metadata, file }) => {
 			// This code RUNS ON YOUR SERVER after upload

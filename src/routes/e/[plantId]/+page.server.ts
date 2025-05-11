@@ -1,3 +1,4 @@
+import * as auth from '$lib/server/auth';
 import { fail, redirect } from '@sveltejs/kit';
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
@@ -55,5 +56,14 @@ export const actions: Actions = {
 			.where(eq(table.plant.id, Number(event.params.plantId)));
 
 		redirect(302, '/');
+	},
+	logout: async (event) => {
+		if (!event.locals.session) {
+			return fail(401);
+		}
+		await auth.invalidateSession(event.locals.session.id);
+		event.cookies.delete(auth.sessionCookieName, { path: '/' });
+
+		return redirect(302, '/signin');
 	}
 };
