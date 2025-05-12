@@ -10,7 +10,7 @@ export const load: PageServerLoad = async (event) => {
 		return redirect(302, '/signin');
 	}
 
-	// get the plant from the passed parameter plantId
+	// nacteni rostliny z plantId URL parametru
 	const res = await db
 		.select()
 		.from(table.plant)
@@ -18,7 +18,7 @@ export const load: PageServerLoad = async (event) => {
 
 	const plant = res[0];
 
-	// check if the plant even exists OR if the userId matches
+	// rostlina neexistuje NEBO nepatri prihlasenemu uzivateli 
 	if (!plant || event.locals.user.id !== plant.userId) {
 		return redirect(302, '/');
 	}
@@ -28,24 +28,29 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions: Actions = {
 	water: async (event) => {
+		// uzivatel musi byt prihlasen
 		if (!event.locals.session) {
 			return fail(401);
 		}
 
+		// nacteni udaju o rostline z databaze
 		const res = await db
 			.select()
 			.from(table.plant)
 			.where(eq(table.plant.id, Number(event.params.plantId)));
 		const plant = res[0];
 
+		// rostlina neexistuje NEBO nepatri prihlasenemu uzivateli 
 		if (!plant || event.locals.session.userId !== plant.userId) {
 			return fail(401);
 		}
 
 		const DAY_IN_MS = 1000 * 60 * 60 * 24;
+		// vypocet data dalsiho zalevani 
 		const nextCycle = plant.cycle * DAY_IN_MS + Date.now();
 		const nextCycleTimestamp = new Date(nextCycle);
 
+		// zapsani aktualizovane hodnoty do databaze
 		await db
 			.update(table.plant)
 			.set({ nextCycleTimestamp })
@@ -64,10 +69,12 @@ export const actions: Actions = {
 			.where(eq(table.plant.id, Number(event.params.plantId)));
 		const plant = res[0];
 
+		// kontrola, zda tato rostlina existuje + patri prihlasenemu uzivateli
 		if (!plant || event.locals.session.userId !== plant.userId) {
 			return fail(401);
 		}
 
+		// odstraneni rostliny z databaze 
 		await db.delete(table.plant).where(eq(table.plant.id, +event.params.plantId));
 	},
 	logout: async (event) => {

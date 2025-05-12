@@ -59,12 +59,7 @@
 	}
 
 	function getEmotion(plant: Plant) {
-		// get percentage until next watering / how late
-		// 100%		= just watered
-		// 10%		= about to be watered
-		// -100%	= late whole 1 cycle
-
-		const percentageDiff = Math.round((getTimeDiff(plant) / plant.cycle) * 100 * 100) / 100;
+		const percentageDiff = Math.round((getTimeDiff(plant) / plant.cycle) * 100);
 
 		// 🥰 80	-	100%
 		if (percentageDiff >= 80) return '🥰';
@@ -95,12 +90,11 @@
 		>
 			<img
 				src={plant.image}
-				alt={'Image of the plant'}
+				alt={`Obrázek rostliny ${plant.name}`}
 				class="h-52 w-full rounded-t-md border-b border-black object-cover"
 			/>
 			<div class="px-4 py-2">
 				<p class="text-xl font-bold uppercase">{getEmotion(plant)} {plant.name}</p>
-				<!-- <p class="line-clamp-2 text-neutral-600">{plant.desc}</p> -->
 				<div class="py-1.5">
 					<p
 						class={`py-1.5 text-sm ${getTimeDiff(plant) < 0 ? 'text-red-600' : 'text-blue-600'} font-medium leading-none`}

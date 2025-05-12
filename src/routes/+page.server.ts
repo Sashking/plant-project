@@ -6,11 +6,12 @@ import * as table from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 
 export const load: PageServerLoad = async (event) => {
+	// pokud uzivatel neni prihlaseny - presmerovani na prihlasovaci stranku
 	if (!event.locals.user) {
 		return redirect(302, '/signin');
 	}
 	
-	// loadujeme veskere rostliny daneho uzivatele z databaze
+	// nacitani vsech rostlin daneho uzivatele z databaze
 	const plants = await db
 		.select()
 		.from(table.plant)
@@ -22,9 +23,12 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions: Actions = {
 	logout: async (event) => {
+		// jenom jestli se uzivatel jeste neodhlasil
 		if (!event.locals.session) {
 			return fail(401);
 		}
+
+		// smazat relaci z databaze & smazat autentizacni cookies
 		await auth.invalidateSession(event.locals.session.id);
 		event.cookies.delete(auth.sessionCookieName, { path: '/' });
 

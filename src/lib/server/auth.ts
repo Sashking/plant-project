@@ -33,7 +33,6 @@ export async function invalidateSession(sessionId: string): Promise<void> {
 export async function validateSession(sessionId: string) {
 	const [result] = await db
 		.select({
-			// Adjust user table here to tweak returned data
 			user: { id: table.user.id, username: table.user.username },
 			session: table.session
 		})
@@ -46,12 +45,14 @@ export async function validateSession(sessionId: string) {
 	}
 	const { session, user } = result;
 
+	// session vyprsela - deautentizace uzivatele
 	const sessionExpired = Date.now() >= session.expiresAt.getTime();
 	if (sessionExpired) {
 		await db.delete(table.session).where(eq(table.session.id, session.id));
 		return { session: null, user: null };
 	}
 
+	// obnovit session pokud se blizi jeji vyprseni (pod 15 dni)
 	const renewSession = Date.now() >= session.expiresAt.getTime() - DAY_IN_MS * 15;
 	if (renewSession) {
 		session.expiresAt = new Date(Date.now() + DAY_IN_MS * 30);

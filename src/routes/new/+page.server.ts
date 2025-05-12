@@ -13,22 +13,25 @@ export const load: PageServerLoad = async (event) => {
 
 export const actions: Actions = {
 	new: async (event) => {
+		// pokud uzivatel neni prihlasen, chyba
 		if (!event.locals.session) {
 			return fail(401);
 		}
 
+		// udaje uvedene ve formulari
 		const formData = await event.request.formData();
 		const name = formData.get('name') as string;
 		const desc = formData.get('desc') as string | null;
 		const cycle = Number(formData.get('cycle'));
 		const image = formData.get('image') as string | null;
 
-		if (name == null || cycle == null) throw new Error('form data not complete');
+		if (name == null || cycle == null) throw new Error('Údaje ve formuláři nejsou úplné');
 
 		const DAY_IN_MS = 24 * 60 * 60 * 1000;
 		const userId = event.locals.session.userId;
 
-		const nextCycleTimestamp = new Date(Date.now() + +cycle * DAY_IN_MS); // convert the days into milliseconds and add that to the date to get the next watering cycle timestamp
+		// vypocet data dalsiho zalevani (dnesni datum + 1 zavlazovaci cyklus)
+		const nextCycleTimestamp = new Date(Date.now() + +cycle * DAY_IN_MS);
 
 		const newPlant = {
 			userId,
@@ -39,6 +42,7 @@ export const actions: Actions = {
 			nextCycleTimestamp
 		};
 
+		// ulozeni dat do databaze
 		await db.insert(table.plant).values(newPlant as any);
 
 		redirect(302, '/');

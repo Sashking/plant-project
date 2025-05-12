@@ -8,7 +8,7 @@
 
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-y-4 sm:gap-x-4">
 	<div class="rounded-md bg-neutral-50 p-4">
-		<img class="w-full rounded-md object-cover" src={data.plant.image} alt="Plant" />
+		<img class="w-full rounded-md object-cover" src={data.plant.image} alt="Rostlina" />
 		<p class="mb-2 mt-4 text-2xl font-bold">{data.plant.name}</p>
 		<p class="text-neutral-600">{data.plant.desc}</p>
 		<form method="post" action="?/water" use:enhance>
@@ -38,7 +38,6 @@
 		</div>
 	</div>
 	<div class="col-span-2 w-full">
-		<!-- schedule of the next watering? -->
-		<!-- {data.plant.nextCycleTimestamp} -->
+		<!-- potencial pro statistiky/analytiku a dalsi vyvoj -->
 	</div>
 </div>
