@@ -40,9 +40,6 @@ export const actions: Actions = {
 
 		if (name == null || cycle == null) throw new Error('form data not complete');
 
-		// todo: add auth that its the right user
-		const userId = event.locals.session.userId;
-
 		const data = {
 			name,
 			desc,
